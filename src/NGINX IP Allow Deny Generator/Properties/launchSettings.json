@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NGINX IP Allow Block Generator": {
+      "commandName": "Project",
+      "commandLineArgs": "-o=%tmp%\\test.txt --cloudflare --aws --gcp --azure --do --plain"
+    }
+  }
+}
