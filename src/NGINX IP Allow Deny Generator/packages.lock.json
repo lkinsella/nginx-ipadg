@@ -17,12 +17,6 @@
         "resolved": "6.0.0",
         "contentHash": "3vLppw2bi+LjM/M5TRQBrQ2kRYFge3+aphf5FiKefEImBG/sUM5sYV2TVYbWnZTHTnW24Gc5CucsohGu/GN9gQ=="
       },
-      "Microsoft.NET.ILLink.Tasks": {
-        "type": "Direct",
-        "requested": "[7.0.100-1.23062.2, )",
-        "resolved": "7.0.100-1.23062.2",
-        "contentHash": "k8rosw61UMYCtkhrxHmkJM6c4zFQopwpOncxyLGH0HTDPNCg88Vt3sHUu+RPYBSz6Oj3OlkwgXDO6uCcgU0B7A=="
-      },
       "Mono.Options": {
         "type": "Direct",
         "requested": "[6.12.0.148, )",
