@@ -22,26 +22,28 @@ public static class Program
     private static string? _outputFile;
     private static string? _type;
     private static bool _plain;
-    private static bool _comment;
+    private static bool _noComment;
     private static string? _commentCharacters;
     private static bool _silent;
+    private static bool _help;
     private static int _returnCode;
     
     static Program()
     {
         _options = new OptionSet
         {
-            { "cloudflare", "Include Cloudflare IP ranges", v => _cloudflare = v != null },
             { "aws", "Include AWS IP ranges", v => _aws = v != null },
             { "azure", "Include Azure IP ranges", v => _azure = v != null },
-            { "gcp", "Include GCP IP ranges", v => _gcp = v != null },
+            { "cloudflare", "Include Cloudflare IP ranges", v => _cloudflare = v != null },
             { "do", "Include DigitalOcean IP ranges", v => _do = v != null },
+            { "gcp", "Include GCP IP ranges", v => _gcp = v != null },
             { "o|output-file=", "File to output to", v => _outputFile = v },
-            { "t|type=", "Type, use allow or deny, default is to allow", v => _type = v },
+            { "t|type=", "Type, use allow or deny (default is allow)", v => _type = v },
             { "p|plain", "Whether the output should be plain or not (no type)", v => _plain = v != null },
-            { "c|comment", "Comment each range block", v => _comment = v != null },
-            { "comment-chars=", "The chararacter(s) used to denote a comment. Use $value$ as a placeholder for the value otherwise it will append. Default is \"# \"", v => _commentCharacters = v },
-            { "s|silent", "Don't show any output", v => _silent = v != null }
+            { "n|no-comment", "Do not comment each range block (default is on)", v => _noComment = v != null },
+            { "comment-format=", "The format used to denote a comment. Use $value$ as a placeholder for the value otherwise it will append. Default is \"# \"", v => _commentCharacters = v },
+            { "s|silent", "Don't show any output", v => _silent = v != null },
+            { "h|help", "Show this usage information", v => _help = v != null }
         };
 
         _cloudflare = false;
@@ -52,9 +54,10 @@ public static class Program
         _outputFile = null;
         _type = null;
         _plain = false;
-        _comment = true;
+        _noComment = false;
         _commentCharacters = null;
         _silent = false;
+        _help = false;
     }
 
     public static async Task<int> Main(string[] args)
@@ -73,6 +76,13 @@ public static class Program
             }
 
             _ = _options.Parse(args);
+
+            if (_help)
+            {
+                Usage();
+
+                return 0;
+            }
 
             if (string.IsNullOrWhiteSpace(_outputFile))
             {
@@ -249,7 +259,7 @@ public static class Program
 
     private static async Task WriteCommentAsync(TextWriter writer, string value)
     {
-        if (!_comment)
+        if (_noComment)
         {
             return;
         }
