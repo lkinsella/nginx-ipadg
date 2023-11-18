@@ -19,6 +19,7 @@ public static class Program
     private static bool _azure;
     private static bool _gcp;
     private static bool _do;
+    private static bool _linode;
     private static string? _outputFile;
     private static string? _type;
     private static bool _plain;
@@ -37,6 +38,7 @@ public static class Program
             { "cloudflare", "Include Cloudflare IP ranges", v => _cloudflare = v != null },
             { "do", "Include DigitalOcean IP ranges", v => _do = v != null },
             { "gcp", "Include GCP IP ranges", v => _gcp = v != null },
+            { "linode", "Include Linode IP ranges", v => _linode = v != null },
             { "o|output-file=", "File to output to", v => _outputFile = v },
             { "t|type=", "Type, use allow or deny (default is allow)", v => _type = v },
             { "p|plain", "Whether the output should be plain or not (no type)", v => _plain = v != null },
@@ -51,6 +53,7 @@ public static class Program
         _azure = false;
         _gcp = false;
         _do = false;
+        _linode = false;
         _outputFile = null;
         _type = null;
         _plain = false;
@@ -227,6 +230,29 @@ public static class Program
                 }
 
                 WriteLine($"GCP completed, {list.Count:#,##} IP ranges.");
+                WriteLine();
+            }
+
+            if (_linode)
+            {
+                WriteLine("Getting IP ranges from Linode...");
+
+                var generator = new LinodeListGenerator();
+                var list = await generator.GeneratorAsync();
+
+                if (list.Count > 0)
+                {
+                    await WriteCommentAsync(writer, "Linode");
+
+                    foreach (var line in list)
+                    {
+                        await WriteAddressAsync(writer, line);
+                    }
+
+                    await writer.WriteLineAsync();
+                }
+
+                WriteLine($"Linode completed, {list.Count:#,##} IP ranges.");
                 WriteLine();
             }
 

@@ -2,7 +2,7 @@
   "profiles": {
     "NGINX IP Allow Block Generator": {
       "commandName": "Project",
-      "commandLineArgs": "-o=%tmp%\\debug.txt --aws --azure --cloudflare --do --gcp --plain"
+      "commandLineArgs": "-o=%tmp%\\debug.txt --aws --azure --cloudflare --do --gcp --linode --plain"
     }
   }
 }
