@@ -68,7 +68,8 @@ public partial class AzureJsonContext : JsonSerializerContext
 
 public sealed class AzureListGenerator : IListGenerator
 {
-    private const string _url = "https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20231106.json";
+    //private const string _url = "https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20231106.json";
+    private const string _url = "https://azureipranges.azurewebsites.net/Data/Public.json";
 
     private static readonly HttpClient _client;
 
